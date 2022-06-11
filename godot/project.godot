@@ -11,6 +11,7 @@ config_version=4
 [application]
 
 config/name="SpaceBlade"
+run/main_scene="res://src/levels/TestLevel.tscn"
 config/icon="res://icon.png"
 
 [input]
