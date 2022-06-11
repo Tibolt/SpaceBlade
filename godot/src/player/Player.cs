@@ -12,7 +12,7 @@ public class Player : Ship
     public States State = States.MOVE;
 
 
-    private PackedScene _playerBullet = (PackedScene)ResourceLoader.Load("res://src/player/PlayerBullet.tscn");
+    private PackedScene _bullet = (PackedScene)ResourceLoader.Load("res://src/player/PlayerBullet.tscn");
     private Position2D _shootPoint {get; set;}
     public override void _Ready()
     {
@@ -68,13 +68,14 @@ public class Player : Ship
 
     public void InstanceBullet()
     {
-        var playerBulletInstance = _playerBullet.Instance<PlayerBullet>();
-        playerBulletInstance.Position = _shootPoint.GlobalPosition;
+        var BulletInstance = _bullet.Instance<PlayerBullet>();
+        BulletInstance.Position = _shootPoint.GlobalPosition;
 
-        // GD.Print("Bullet:" + playerBulletInstance.GlobalPosition);
-        // GD.Print("ShootPoint:" + _shootPoint.GlobalPosition);
-        // GD.Print("Player:" + GlobalPosition);
+        GetParent().AddChild(BulletInstance);
+    }
 
-        GetParent().AddChild(playerBulletInstance);
+    public void OnHurtboxAreaEntered(Hitbox hitbox)
+    {
+        GD.Print("Player - 1HP");
     }
 }

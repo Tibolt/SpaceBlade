@@ -3,6 +3,7 @@ using System;
 
 public class PlayerBullet : Node2D
 {
+    [Export]
     public Vector2 Direction = Vector2.Up;
     [Export]
     public float MaxSpeed {get; set;}
