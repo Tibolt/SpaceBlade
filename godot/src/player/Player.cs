@@ -68,10 +68,10 @@ public class Player : Ship
 
     public void InstanceBullet()
     {
-        var BulletInstance = _bullet.Instance<PlayerBullet>();
-        BulletInstance.Position = _shootPoint.GlobalPosition;
+        var bulletInstance = _bullet.Instance<PlayerBullet>();
+        bulletInstance.Position = _shootPoint.GlobalPosition;
 
-        GetParent().AddChild(BulletInstance);
+        GetParent().AddChild(bulletInstance);
     }
 
     public void OnHurtboxAreaEntered(Hitbox hitbox)

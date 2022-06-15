@@ -12,6 +12,10 @@ radius = 5.0
 
 [node name="SmallEnemy" type="KinematicBody2D"]
 script = ExtResource( 3 )
+MaxSpeed = 80.0
+Acceleration = 200.0
+Friction = 150.0
+Health = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 modulate = Color( 0.796078, 0.0784314, 0.0784314, 1 )
@@ -35,6 +39,11 @@ shape = SubResource( 1 )
 position = Vector2( 0, -1 )
 rotation = 3.14159
 
+[node name="DestroyTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
 [connection signal="area_entered" from="Hurtbox" to="." method="OnHurtboxAreaEntered"]
+[connection signal="timeout" from="DestroyTimer" to="." method="OnDestroyTimerTimeout"]
 
 [editable path="Hurtbox"]

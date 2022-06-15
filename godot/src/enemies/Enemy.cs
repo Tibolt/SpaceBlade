@@ -1,8 +1,10 @@
 using Godot;
 using System;
 
-public class Enemy : KinematicBody2D
+public class Enemy : Ship
 {
+    [Export]
+    public bool CanStrafe = false;
     private Sprite _sprite {get;set;}
     private CollisionShape2D _collisionShape {get;set;}
     private Hurtbox _hurtbox = null;
@@ -20,7 +22,26 @@ public class Enemy : KinematicBody2D
     public override void _Process(float delta)
     {
         Shoot();
+        MoveState(delta);
     }
+    public void MoveState(float delta)
+    {
+        Vector2 direction = Vector2.Down;
+        direction = direction.Normalized();
+
+        if(direction != Vector2.Zero)
+        {
+            Velocity = Velocity.MoveToward(direction * MaxSpeed, Acceleration * delta);
+        }
+        else
+        {
+            Velocity = Velocity.MoveToward(Vector2.Zero, Friction * delta);
+        }
+
+        Velocity = MoveAndSlide(Velocity);
+
+    }
+
 
     public void Shoot()
     {
@@ -39,10 +60,22 @@ public class Enemy : KinematicBody2D
         GetParent().AddChild(BulletInstance);
     }
 
+    public void DeadState()
+    {
+        QueueFree();
+    }
+
     public void OnHurtboxAreaEntered(Hitbox hitbox)
     {
         // _hurtbox.ShowHitEffect();
-        GD.Print("Enemy - 1HP");
+        Health -= hitbox.damage;
+        if(Health <= 0)
+            DeadState();
+    }
+
+    public void OnDestroyTimerTimeout()
+    {
+        DeadState();
     }
 
 
