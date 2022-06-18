@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/SmallEnemy.png" type="Texture" id=1]
 [ext_resource path="res://src/other/Hurtbox.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/enemies/Enemy.cs" type="Script" id=3]
+[ext_resource path="res://src/items/Item.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 3.0
@@ -16,6 +17,8 @@ MaxSpeed = 80.0
 Acceleration = 200.0
 Friction = 150.0
 Health = 1
+Item = ExtResource( 4 )
+CanStrafe = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 modulate = Color( 0.796078, 0.0784314, 0.0784314, 1 )
@@ -40,10 +43,14 @@ position = Vector2( 0, -1 )
 rotation = 3.14159
 
 [node name="DestroyTimer" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 4.0
 autostart = true
+
+[node name="ReloadTimer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="area_entered" from="Hurtbox" to="." method="OnHurtboxAreaEntered"]
 [connection signal="timeout" from="DestroyTimer" to="." method="OnDestroyTimerTimeout"]
+[connection signal="timeout" from="ReloadTimer" to="." method="OnReloadTimerTimeout"]
 
 [editable path="Hurtbox"]
