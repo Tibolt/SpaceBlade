@@ -43,7 +43,7 @@ position = Vector2( 0, -1 )
 rotation = 3.14159
 
 [node name="DestroyTimer" type="Timer" parent="."]
-wait_time = 4.0
+wait_time = 5.0
 autostart = true
 
 [node name="ReloadTimer" type="Timer" parent="."]

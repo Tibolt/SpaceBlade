@@ -1,23 +1,67 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://src/player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/enemies/SmallEnemy.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/other/EnemySpawner.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/ui/PauseScreen.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/Backgrounds/Paralex/Background_0.png" type="Texture" id=5]
+[ext_resource path="res://assets/Backgrounds/Paralex/Stars_1.png" type="Texture" id=6]
+[ext_resource path="res://assets/Backgrounds/Paralex/Stars_3.png" type="Texture" id=7]
+[ext_resource path="res://assets/Backgrounds/Paralex/Stars_2.png" type="Texture" id=8]
+[ext_resource path="res://src/player/PlayerBullet.tscn" type="PackedScene" id=9]
+[ext_resource path="res://src/enemies/EnemyBullet.tscn" type="PackedScene" id=10]
+
+[sub_resource type="Environment" id=6]
+background_mode = 4
+glow_enabled = true
+glow_intensity = 0.5
+glow_blend_mode = 0
+glow_hdr_threshold = 1.5
+glow_bicubic_upscale = true
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 279, 23 )
 
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
+
+uniform vec2 direction = vec2(0.0, -1.0);
+uniform float speed = 0.1;
+
+void fragment()
+{
+	vec2 velocity = direction * TIME * speed;
+	COLOR = texture(TEXTURE, UV + velocity);
+}"
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = SubResource( 2 )
+shader_param/direction = Vector2( 0, -1 )
+shader_param/speed = 0.2
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
+shader_param/direction = Vector2( 0, -1 )
+shader_param/speed = 0.05
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 2 )
+shader_param/direction = Vector2( 0.2, -1 )
+shader_param/speed = 0.1
+
 [node name="Node2D" type="Node2D"]
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 6 )
+
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 508, 534 )
+position = Vector2( 312, 459 )
 
 [node name="SmallEnemy" parent="." instance=ExtResource( 2 )]
-position = Vector2( 516, 225 )
+position = Vector2( 330, 68 )
 
 [node name="EnemySpawner" parent="." instance=ExtResource( 3 )]
-position = Vector2( 518, 152 )
+position = Vector2( 347, 148 )
 enemy = ExtResource( 2 )
 
 [node name="Area2D" parent="EnemySpawner" index="0"]
@@ -33,10 +77,74 @@ autostart = true
 position = Vector2( 1, 4 )
 
 [node name="UICanvas" type="CanvasLayer" parent="."]
+layer = -1
 
 [node name="UI" parent="UICanvas" instance=ExtResource( 4 )]
+
+[node name="ParallexBG" type="CanvasLayer" parent="."]
+layer = -100
+
+[node name="TextureRect1" type="TextureRect" parent="ParallexBG"]
+margin_right = 1210.0
+margin_bottom = 605.0
+texture = ExtResource( 5 )
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect2" type="TextureRect" parent="ParallexBG"]
+material = SubResource( 5 )
+margin_right = 1208.0
+margin_bottom = 604.0
+texture = ExtResource( 6 )
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect3" type="TextureRect" parent="ParallexBG"]
+self_modulate = Color( 1.1, 1.2, 1.4, 1 )
+material = SubResource( 3 )
+margin_right = 1208.0
+margin_bottom = 604.0
+texture = ExtResource( 8 )
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect4" type="TextureRect" parent="ParallexBG"]
+modulate = Color( 1.2, 1.1, 1.1, 1 )
+material = SubResource( 4 )
+margin_right = 1198.0
+margin_bottom = 599.0
+texture = ExtResource( 7 )
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerBullet" parent="." instance=ExtResource( 9 )]
+position = Vector2( 629, 443 )
+
+[node name="Sprite" parent="PlayerBullet" index="1"]
+modulate = Color( 0.5, 0.5, 1.4, 1 )
+
+[node name="Sprite2" parent="PlayerBullet" index="3"]
+self_modulate = Color( 0.00392157, 0.00392157, 1, 0.501961 )
+
+[node name="EnemyBullet" parent="." instance=ExtResource( 10 )]
+position = Vector2( 626, 71 )
+
+[node name="Sprite" parent="EnemyBullet" index="1"]
+self_modulate = Color( 1, 1, 1, 1 )
 
 [editable path="Player"]
 [editable path="Player/Hurtbox"]
 [editable path="EnemySpawner"]
 [editable path="UICanvas/UI"]
+[editable path="PlayerBullet"]
+[editable path="PlayerBullet/Hitbox"]
+[editable path="EnemyBullet"]
+[editable path="EnemyBullet/Hitbox"]

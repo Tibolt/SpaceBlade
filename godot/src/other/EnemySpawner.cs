@@ -5,14 +5,14 @@ public class EnemySpawner : Node2D
 {
     [Export]
     public PackedScene enemy {get;set;}
+    RandomNumberGenerator rand = new RandomNumberGenerator();
     private Timer _timer {get;set;}
-    // private CollisionShape2D _shape {get;set;}
     private Camera2D _shape {get;set;}
 
     public override void _Ready()
     {
+        rand.Randomize();
         _timer = GetNode<Timer>("Timer");
-        // _shape = GetNode<CollisionShape2D>("Area2D/CollisionShape2D");
         _shape = GetNode<Camera2D>("Camera2D");
     }
 
@@ -26,14 +26,16 @@ public class EnemySpawner : Node2D
         try
         {
             var enemyInstance = enemy.Instance<Enemy>();
+            const float border = 100;
 
-            RandomNumberGenerator rand = new RandomNumberGenerator();
+            // var rect = GetViewportRect();
+            // var positionLeft = rect.Position.x + border;
+            // var positionRight = rect.Position.x + rect.Size.x - border;
+            // // var positionY = rect.Position.y;
+            var positionY = GlobalVariables.ScreenTop;
             rand.Randomize();
-
-            var positionLeft = _shape.LimitLeft;
-            var positionRight = _shape.LimitRight;
-            var positionY = _shape.GlobalPosition.y;
-            var position = rand.RandiRange(positionLeft, positionRight);
+            var position = rand.RandfRange(GlobalVariables.ScreenLeft + border, GlobalVariables.ScreenRight - border);
+            // GD.Print("pos: " + position + "y: " + positionY);
 
             enemyInstance.Position = new Vector2(position, positionY);
 
@@ -41,17 +43,17 @@ public class EnemySpawner : Node2D
         }
         catch (System.Exception)
         {
-            GD.Print("Now working");
+            GD.Print("SpawnEnemy not working");
             throw;
         }
     }
 
     public void SetTimer()
     {
-        RandomNumberGenerator rand = new RandomNumberGenerator();
         rand.Randomize();
 
-        var time = rand.RandfRange(2,6);
+        var time = rand.RandfRange(1,4);
+        // var1 + (randf() - var2) * var3
         _timer.WaitTime = time;
     }
 

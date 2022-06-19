@@ -9,14 +9,15 @@ public class Enemy : Ship
     [Export]
     public float ReloadTime = 1;
     public bool IsReloading = false;
+    [Export]
+    public PackedScene Item {get;set;}
+    public RandomNumberGenerator rand = new RandomNumberGenerator();
     private Sprite _sprite {get;set;}
     private CollisionShape2D _collisionShape {get;set;}
     private Hurtbox _hurtbox = null;
     private Position2D _shootPoint {get; set;}
     private Timer _reloadTimer {get;set;}
     private PackedScene _bullet = (PackedScene)ResourceLoader.Load("res://src/enemies/EnemyBullet.tscn");
-    [Export]
-    public PackedScene Item {get;set;}
     public override void _Ready()
     {
         _sprite = GetNode<Sprite>("Sprite");
@@ -25,9 +26,8 @@ public class Enemy : Ship
         _shootPoint = GetNode<Position2D>("ShootPoint");   
         _reloadTimer = GetNode<Timer>("ReloadTimer");
          
-        var rand = new RandomNumberGenerator();
         rand.Randomize();
-        if(rand.RandiRange(1,2) == 1)
+        if(rand.Randi() % 2 == 0)
             directionX = Vector2.Left;
         else
             directionX = Vector2.Right;
@@ -60,13 +60,14 @@ public class Enemy : Ship
     public void Strafe(float delta)
     {
         // TODO: change left and right to screen size
-        var left = 300;
-        var right = 700;
+        const float border = 4;
+        var left = GlobalVariables.ScreenLeft;
+        var right = GlobalVariables.ScreenRight;
         directionX = directionX.Normalized();
 
-        if(GlobalPosition.x <= left)
+        if(Position.x <= left + border)
             directionX = Vector2.Right;
-        else if(GlobalPosition.x >= right)
+        else if(Position.x >= right - border)
             directionX = Vector2.Left;
 
         if(directionX != Vector2.Zero)
@@ -77,11 +78,9 @@ public class Enemy : Ship
 
     public void RandomStrafe()
     {
-        var rand = new RandomNumberGenerator();
         rand.Randomize();
-        
 
-        if(rand.RandiRange(1,2) == 1)
+        if(rand.Randi() % 2 == 0)
         {
             directionX = Vector2.Left;
         }
@@ -94,10 +93,9 @@ public class Enemy : Ship
 
     public void Shoot()
     {
-        var rand = new RandomNumberGenerator();
         rand.Randomize();
 
-        if(!IsReloading && rand.RandiRange(1,100) == 1)
+        if(!IsReloading && rand.Randi() % 200 == 0)
         {
             InstanceBullet();
             IsReloading = true;
@@ -122,10 +120,9 @@ public class Enemy : Ship
 
     public void DeadState()
     { 
-        var rand = new RandomNumberGenerator();
-        rand.Randomize();
+        GlobalVariables.Score += 1;
 
-        if(rand.RandiRange(1,10) == 1)
+        if(rand.Randi() % 10 == 0)
             InstaceItem();
 
         QueueFree();
@@ -147,7 +144,8 @@ public class Enemy : Ship
     public void OnReloadTimerTimeout()
     {
         IsReloading = false;
-        RandomStrafe();
+        if(CanStrafe)
+            RandomStrafe();
     }
 
 
