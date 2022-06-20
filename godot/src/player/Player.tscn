@@ -16,6 +16,8 @@ blend_mode = 1
 
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 0, -2 )
+collision_layer = 0
+collision_mask = 0
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_vertical_guides_": [ -2557.0 ]
@@ -55,6 +57,10 @@ position = Vector2( 0.167042, 5 )
 scale = Vector2( 0.0371094, 0.019043 )
 texture = ExtResource( 4 )
 
+[node name="ReloadTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="area_entered" from="Hurtbox" to="." method="OnHurtboxAreaEntered"]
+[connection signal="timeout" from="ReloadTimer" to="." method="OnReloadTimerTimeout"]
 
 [editable path="Hurtbox"]

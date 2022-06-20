@@ -21,6 +21,7 @@ Damage = 1
 Direction = Vector2( 0, 1 )
 
 [node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
 one_shot = true
 autostart = true
 

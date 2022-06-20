@@ -30,6 +30,7 @@ public class PauseScreen : Control
     public void SetPause(bool value)
     {
         IsPaused = value;
+        GlobalVariables.IsPaused = value;
         GetTree().Paused = value;
         _canvas.Visible = value;
 

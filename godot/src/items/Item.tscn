@@ -1,17 +1,26 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://src/items/Item.cs" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://assets/items/items.png" type="Texture" id=2]
 
 [node name="Item" type="Node2D"]
 script = ExtResource( 1 )
-ItemName = "TestItem"
-Value = 1
 MaxSpeed = 100
+Items = {
+"Armor": 2,
+"Bullet": 3,
+"Coin": 0,
+"Health": 5,
+"Skull": 1,
+"Speed": 4
+}
 
 [node name="Sprite" type="Sprite" parent="."]
-modulate = Color( 0.705882, 0.890196, 0.0392157, 1 )
+position = Vector2( 6.77626e-21, -1 )
+scale = Vector2( 1.3125, 1.3125 )
 texture = ExtResource( 2 )
+hframes = 4
+vframes = 2
 
 [node name="Area2D" type="Area2D" parent="."]
 

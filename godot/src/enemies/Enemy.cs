@@ -10,8 +10,10 @@ public class Enemy : Ship
     public float ReloadTime = 1;
     public bool IsReloading = false;
     [Export]
-    public PackedScene Item {get;set;}
-    public RandomNumberGenerator rand = new RandomNumberGenerator();
+    public PackedScene ItemScene {get;set;}
+    [Export]
+    public int DropRate {get;set;}
+    private RandomNumberGenerator _rand = new RandomNumberGenerator();
     private Sprite _sprite {get;set;}
     private CollisionShape2D _collisionShape {get;set;}
     private Hurtbox _hurtbox = null;
@@ -26,8 +28,8 @@ public class Enemy : Ship
         _shootPoint = GetNode<Position2D>("ShootPoint");   
         _reloadTimer = GetNode<Timer>("ReloadTimer");
          
-        rand.Randomize();
-        if(rand.Randi() % 2 == 0)
+        _rand.Randomize();
+        if(_rand.Randi() % 2 == 0)
             directionX = Vector2.Left;
         else
             directionX = Vector2.Right;
@@ -78,9 +80,9 @@ public class Enemy : Ship
 
     public void RandomStrafe()
     {
-        rand.Randomize();
+        _rand.Randomize();
 
-        if(rand.Randi() % 2 == 0)
+        if(_rand.Randi() % 2 == 0)
         {
             directionX = Vector2.Left;
         }
@@ -93,9 +95,9 @@ public class Enemy : Ship
 
     public void Shoot()
     {
-        rand.Randomize();
+        _rand.Randomize();
 
-        if(!IsReloading && rand.Randi() % 200 == 0)
+        if(!IsReloading && _rand.Randi() % 200 == 0)
         {
             InstanceBullet();
             IsReloading = true;
@@ -112,17 +114,29 @@ public class Enemy : Ship
 
     public void InstaceItem()
     {
-        var drop = Item.Instance<Item>();
+        // var item = Item.SetItem("Skull");
+        var drop = ItemScene.Instance<Item>();
+        // drop.ItemName = "Skull";
         drop.Position = GlobalPosition;
 
         GetParent().AddChild(drop);
+        drop.SetItemName(RandomItem());
+    }
+
+    public string RandomItem()
+    {
+        _rand.Randomize();
+        var items = GlobalVariables.ItemNames;
+        
+        var drop = items[_rand.RandiRange(0, items.Count-1)];
+        return drop;
     }
 
     public void DeadState()
     { 
         GlobalVariables.Score += 1;
 
-        if(rand.Randi() % 10 == 0)
+        if(_rand.Randi() % DropRate == 0)
             InstaceItem();
 
         QueueFree();

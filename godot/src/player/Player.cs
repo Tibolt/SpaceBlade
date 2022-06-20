@@ -10,13 +10,22 @@ public class Player : Ship
     };
 
     public States State = States.MOVE;
+    public bool IsReloading = false;
+    [Export]
+    public float ReloadTime = 1.5f;
+    [Export]
+    public int NumberOfBullets = 5;
+    public int BulletsShooted {get;set;}
 
 
     private PackedScene _bullet = (PackedScene)ResourceLoader.Load("res://src/player/PlayerBullet.tscn");
     private Position2D _shootPoint {get; set;}
+    private Timer _reloadTimer {get;set;}
     public override void _Ready()
     {
         _shootPoint = GetNode<Position2D>("ShootPoint");   
+        _reloadTimer = GetNode<Timer>("ReloadTimer");
+        BulletsShooted = NumberOfBullets;
     }
 
     public override void _Process(float delta)
@@ -33,9 +42,18 @@ public class Player : Ship
                 break;
         }
 
-        if(Input.IsActionJustPressed("shoot"))
+        if(Input.IsActionJustPressed("shoot") && !IsReloading)
         {
-            InstanceBullet();
+            if(BulletsShooted <= 0)
+            {
+                _reloadTimer.Start(ReloadTime);
+                IsReloading = true;
+            }
+            else
+            {
+                InstanceBullet();
+                --BulletsShooted;
+            }
         }
     }
     public Vector2 GetDirection()
@@ -77,5 +95,11 @@ public class Player : Ship
     public void OnHurtboxAreaEntered(Hitbox hitbox)
     {
         GD.Print("Player - 1HP");
+    }
+
+    public void OnReloadTimerTimeout()
+    {
+        IsReloading = false;
+        BulletsShooted = NumberOfBullets;
     }
 }

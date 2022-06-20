@@ -4,14 +4,15 @@ using System;
 public class EnemySpawner : Node2D
 {
     [Export]
-    public PackedScene enemy {get;set;}
-    RandomNumberGenerator rand = new RandomNumberGenerator();
+    public PackedScene Enemy {get;set;}
+    [Export] public Godot.Collections.Array<PackedScene> EnemyList = new Godot.Collections.Array<PackedScene>();
+    private RandomNumberGenerator _rand = new RandomNumberGenerator();
     private Timer _timer {get;set;}
     private Camera2D _shape {get;set;}
 
     public override void _Ready()
     {
-        rand.Randomize();
+        _rand.Randomize();
         _timer = GetNode<Timer>("Timer");
         _shape = GetNode<Camera2D>("Camera2D");
     }
@@ -25,35 +26,36 @@ public class EnemySpawner : Node2D
     {
         try
         {
-            var enemyInstance = enemy.Instance<Enemy>();
+            // var enemyInstance = Enemy.Instance<Enemy>();
+            var enemyInstance = ChooseEnemy().Instance<Enemy>();
             const float border = 100;
 
-            // var rect = GetViewportRect();
-            // var positionLeft = rect.Position.x + border;
-            // var positionRight = rect.Position.x + rect.Size.x - border;
-            // // var positionY = rect.Position.y;
             var positionY = GlobalVariables.ScreenTop;
-            rand.Randomize();
-            var position = rand.RandfRange(GlobalVariables.ScreenLeft + border, GlobalVariables.ScreenRight - border);
-            // GD.Print("pos: " + position + "y: " + positionY);
+            _rand.Randomize();
+            var position = _rand.RandfRange(GlobalVariables.ScreenLeft + border, GlobalVariables.ScreenRight - border);
 
             enemyInstance.Position = new Vector2(position, positionY);
-
             GetParent().AddChild(enemyInstance);
         }
         catch (System.Exception)
         {
             GD.Print("SpawnEnemy not working");
-            throw;
         }
+    }
+
+    public PackedScene ChooseEnemy()
+    {
+        _rand.Randomize();
+
+        var randomEnemy = EnemyList[_rand.RandiRange(0, EnemyList.Count-1)];
+        return randomEnemy;
     }
 
     public void SetTimer()
     {
-        rand.Randomize();
+        _rand.Randomize();
 
-        var time = rand.RandfRange(1,4);
-        // var1 + (randf() - var2) * var3
+        var time = _rand.RandfRange(1,4);
         _timer.WaitTime = time;
     }
 
