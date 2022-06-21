@@ -46,5 +46,6 @@ scale = Vector2( 0.0379585, 0.111398 )
 texture = ExtResource( 4 )
 
 [connection signal="timeout" from="Timer" to="." method="OnTimerTimeout"]
+[connection signal="area_entered" from="Hitbox" to="." method="OnHitboxAreaEntered"]
 
 [editable path="Hitbox"]

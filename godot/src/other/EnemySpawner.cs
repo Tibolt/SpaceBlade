@@ -29,15 +29,16 @@ public class EnemySpawner : Node2D
             // var enemyInstance = Enemy.Instance<Enemy>();
             var enemyInstance = ChooseEnemy().Instance<Enemy>();
             const float border = 100;
+            const float topBorder = 4;
 
-            var positionY = GlobalVariables.ScreenTop;
             _rand.Randomize();
             var position = _rand.RandfRange(GlobalVariables.ScreenLeft + border, GlobalVariables.ScreenRight - border);
+            var positionY = GlobalVariables.ScreenTop + topBorder;
 
             enemyInstance.Position = new Vector2(position, positionY);
             GetParent().AddChild(enemyInstance);
         }
-        catch (System.Exception)
+        catch
         {
             GD.Print("SpawnEnemy not working");
         }

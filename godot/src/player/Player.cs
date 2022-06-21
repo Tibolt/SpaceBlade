@@ -102,4 +102,37 @@ public class Player : Ship
         IsReloading = false;
         BulletsShooted = NumberOfBullets;
     }
+
+    public void OnItemCollectorAreaEntered(Hurtbox hurtbox)
+    {
+        var item = hurtbox.GetParent<Item>();
+        if(item != null)
+            ItemEffects(item.ItemName);
+    }
+
+    public void ItemEffects(string name)
+    {
+        switch(name)
+            {
+                case "Health":
+                    Health++;
+                    GD.Print("Health: " + Health);
+                    break;
+                case "Armor":
+                    break;
+                case "Speed":
+                    Acceleration += 5;
+                    GD.Print("Acceleration: " + Acceleration);
+                    break;
+                case "Bullet":
+                    NumberOfBullets++;
+                    break;
+                case "Coin":
+                    GlobalVariables.Money += 10;
+                    break;
+                default:
+                    GD.Print(name);
+                    break;
+            }
+    }
 }

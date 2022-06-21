@@ -33,5 +33,10 @@ public class PlayerBullet : Node2D
         Destory();
     }
 
+    public void OnHitboxAreaEntered(Hurtbox hurtbox)
+    {
+        Destory();
+    }
+
 
 }

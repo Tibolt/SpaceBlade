@@ -121,6 +121,7 @@ public class Enemy : Ship
 
         GetParent().AddChild(drop);
         drop.SetItemName(RandomItem());
+        drop.CallDeferred("SetCollisionShape",5);
     }
 
     public string RandomItem()

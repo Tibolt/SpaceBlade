@@ -9,23 +9,18 @@ public class Item : Node2D
     [Export]
     public int Value {get;set;}
     [Export]
-    public TextureRect Txt {get;set;}
-    [Export]
     public int MaxSpeed {get;set;}
     [Export]
     public Godot.Collections.Dictionary<String, int> Items = new Godot.Collections.Dictionary<String, int>();
     
     public Vector2 Velocity {get;set;}
-    public Sprite _sprite {get;set;}
+    private Sprite _sprite {get;set;}
+    private CollisionShape2D _collision {get;set;}
 
-    // public Item(string name, int value)
-    // {
-    //     ItemName = name;
-    //     Value = value;
-    // }
     public override void _Ready()
     {
         _sprite = GetNode<Sprite>("Sprite");
+        _collision = GetNode<CollisionShape2D>("Hurtbox/CollisionShape2D");
 
         foreach(var name in Items)
         {
@@ -56,7 +51,13 @@ public class Item : Node2D
         {
             GD.Print("SetItemName not working");
         }
+    }
 
+    public void SetCollisionShape(int radius)
+    {
+        var circle = new CircleShape2D();
+        circle.Radius = radius;
+        _collision.Shape = circle;
     }
 
     public void OnTimerTimeout()
@@ -64,5 +65,8 @@ public class Item : Node2D
         QueueFree();
     }
 
-
+    public void OnHurtboxAreaEntered(Area2D area)
+    {
+        QueueFree();
+    }
 }

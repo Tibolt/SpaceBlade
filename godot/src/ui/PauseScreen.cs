@@ -7,10 +7,13 @@ public class PauseScreen : Control
 
     private ColorRect _canvas {set;get;}
     private Label _scoreLabel {set;get;}
+    private Label _moneyLabel {set;get;}
+
     public override void _Ready()
     {
         _canvas = GetNode<ColorRect>("ColorRect");
         _scoreLabel = GetNode<Label>("ScoreLabel");
+        _moneyLabel = GetNode<Label>("MoneyLabel");
     }
 
     public override void _Process(float delta)
@@ -40,6 +43,7 @@ public class PauseScreen : Control
     {
         // update UI, score, health
         _scoreLabel.Text = GlobalVariables.Score.ToString();
+        _moneyLabel.Text = GlobalVariables.Money.ToString();
     }
 
         
