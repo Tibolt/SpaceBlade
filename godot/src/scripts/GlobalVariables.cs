@@ -11,6 +11,7 @@ public class GlobalVariables : Node2D
     static public float ScreenBottom {set;get;}
     public const float Border = 100;
     static public Godot.Collections.Array<String> ItemNames = new Godot.Collections.Array<String>();
+    static public ItemDict ItemsDict = new ItemDict();
     static public int Money {set;get;}
     public override void _Ready()
     {

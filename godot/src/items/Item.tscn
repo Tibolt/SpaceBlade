@@ -7,14 +7,6 @@
 [node name="Item" type="Node2D"]
 script = ExtResource( 1 )
 MaxSpeed = 100
-Items = {
-"Armor": 2,
-"Bullet": 3,
-"Coin": 0,
-"Health": 5,
-"Skull": 1,
-"Speed": 4
-}
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 6.77626e-21, -1 )
