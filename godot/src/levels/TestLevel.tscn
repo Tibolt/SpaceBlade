@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://src/player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/enemies/SmallEnemy.tscn" type="PackedScene" id=2]
@@ -8,8 +8,6 @@
 [ext_resource path="res://assets/Backgrounds/Paralex/Stars_1.png" type="Texture" id=6]
 [ext_resource path="res://assets/Backgrounds/Paralex/Stars_3.png" type="Texture" id=7]
 [ext_resource path="res://assets/Backgrounds/Paralex/Stars_2.png" type="Texture" id=8]
-[ext_resource path="res://src/player/PlayerBullet.tscn" type="PackedScene" id=9]
-[ext_resource path="res://src/enemies/EnemyBullet.tscn" type="PackedScene" id=10]
 [ext_resource path="res://src/enemies/FastEnemy.tscn" type="PackedScene" id=11]
 
 [sub_resource type="Environment" id=6]
@@ -127,26 +125,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PlayerBullet" parent="." instance=ExtResource( 9 )]
-position = Vector2( 629, 443 )
-
-[node name="Sprite" parent="PlayerBullet" index="1"]
-modulate = Color( 0.5, 0.5, 1.4, 1 )
-
-[node name="Sprite2" parent="PlayerBullet" index="3"]
-self_modulate = Color( 0.00392157, 0.00392157, 1, 0.501961 )
-
-[node name="EnemyBullet" parent="." instance=ExtResource( 10 )]
-position = Vector2( 626, 71 )
-
-[node name="Sprite" parent="EnemyBullet" index="1"]
-self_modulate = Color( 1, 1, 1, 1 )
-
 [editable path="Player"]
 [editable path="Player/Hurtbox"]
 [editable path="EnemySpawner"]
 [editable path="UICanvas/UI"]
-[editable path="PlayerBullet"]
-[editable path="PlayerBullet/Hitbox"]
-[editable path="EnemyBullet"]
-[editable path="EnemyBullet/Hitbox"]

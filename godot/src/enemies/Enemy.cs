@@ -137,20 +137,7 @@ public class Enemy : Ship
         GD.Print(chance);
         string dr = null;
         dr = itemsWeight.ContainsRarity(chance);
-        // if(chance < 0.55)
-        // {
-        //     dr = itemsWeight.ContainsRarity(0.55f);
-        // }
-        // else if(chance < 0.6)
-        //     dr = itemsWeight.ContainsRarity(0.6f);
-        // else if(chance < 0.65)
-        //     dr = itemsWeight.ContainsRarity(0.65f);
-        // else if(chance < 0.7)
-        //     dr = itemsWeight.ContainsRarity(0.7f);
-        // else if(chance < 0.95)
-        //     dr = itemsWeight.ContainsRarity(0.95f);
-        // else if(chance < 0.98)
-        //     dr = itemsWeight.ContainsRarity(0.98f);
+
         if(dr != null)
             return LastDrop = dr;
         GD.Print("Retrun rand drop");

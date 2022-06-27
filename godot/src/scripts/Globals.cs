@@ -27,5 +27,20 @@ public class Globals : Node
         GetTree().SetCurrentScene(CurrentScene);
     }
 
+    public void InstanceScene(string path)
+    {
+        CurrentScene.Free();
+
+        var scene = (PackedScene)GD.Load(path);
+        CurrentScene = scene.Instance();
+        GetTree().GetRoot().AddChild(CurrentScene);
+    }
+
+    public void GoScene(string path)
+    {
+        var scene = (PackedScene)GD.Load(path);
+        GetTree().ChangeSceneTo(scene);
+    }
+
 
 }

@@ -5,21 +5,40 @@ public class EnemySpawner : Node2D
 {
     [Export]
     public PackedScene Enemy {get;set;}
-    [Export] public Godot.Collections.Array<PackedScene> EnemyList = new Godot.Collections.Array<PackedScene>();
+    [Export] 
+    public Godot.Collections.Array<PackedScene> EnemyList = new Godot.Collections.Array<PackedScene>();
+    [Export]
+    public float MinTimeSpawn {get;set;}
+    [Export]
+    public float MaxTimeSpawn {get;set;}
+    [Export]
+    public float TimeToShortenSpawn {get;set;}
     private RandomNumberGenerator _rand = new RandomNumberGenerator();
     private Timer _timer {get;set;}
     private Camera2D _shape {get;set;}
+    private bool _spawnerUpdated = false;
+    [Signal]
+    public delegate void NextScore();
 
     public override void _Ready()
     {
         _rand.Randomize();
         _timer = GetNode<Timer>("Timer");
         _shape = GetNode<Camera2D>("Camera2D");
+
+        Connect("NextScore", this, "UpdateSpawner");
     }
 
     public override void _Process(float delta)
     {
-
+        if(GlobalVariables.Score % 10 > 0)
+        {
+            EmitSignal("NextScore");
+        }
+        else
+        {
+            _spawnerUpdated = false;
+        }
     }
 
     public void SpawnEnemy()
@@ -56,7 +75,7 @@ public class EnemySpawner : Node2D
     {
         _rand.Randomize();
 
-        var time = _rand.RandfRange(1,4);
+        var time = _rand.RandfRange(MinTimeSpawn,MaxTimeSpawn);
         _timer.WaitTime = time;
     }
 
@@ -64,5 +83,14 @@ public class EnemySpawner : Node2D
     {
         SpawnEnemy();
         SetTimer();
+    }
+
+    public void UpdateSpawner()
+    {
+        if(MaxTimeSpawn > MinTimeSpawn + 0.5 && !_spawnerUpdated)
+        {
+            MaxTimeSpawn -= TimeToShortenSpawn;
+            _spawnerUpdated = true;
+        }
     }
 }

@@ -27,10 +27,15 @@ public class Player : Ship
         _reloadTimer = GetNode<Timer>("ReloadTimer");
         BulletsShooted = NumberOfBullets;
     }
+    public override void _Input(InputEvent @event)
+    {
+        if(@event.IsActionPressed("reload"))
+            Reload();
+    }
 
     public override void _Process(float delta)
     {
-        if(Health <= 0) State = States.DEAD;
+        WrapEdges();
 
         switch(State)
         {
@@ -46,8 +51,7 @@ public class Player : Ship
         {
             if(BulletsShooted <= 0)
             {
-                _reloadTimer.Start(ReloadTime);
-                IsReloading = true;
+                Reload();
             }
             else
             {
@@ -94,6 +98,8 @@ public class Player : Ship
 
     public void OnHurtboxAreaEntered(Hitbox hitbox)
     {
+        // if(Health <= 0) 
+            // State = States.DEAD;
         GD.Print("Player - 1HP");
     }
 
@@ -134,5 +140,19 @@ public class Player : Ship
                     GD.Print(name);
                     break;
             }
+    }
+
+    public void WrapEdges()
+    {
+        if(Position.x > GlobalVariables.ScreenRight)
+            Position = new Vector2(GlobalVariables.ScreenLeft, Position.y);
+        if(Position.x < GlobalVariables.ScreenLeft)
+            Position = new Vector2(GlobalVariables.ScreenRight, Position.y);
+    }
+
+    public void Reload()
+    {
+        _reloadTimer.Start(ReloadTime);
+        IsReloading = true;
     }
 }

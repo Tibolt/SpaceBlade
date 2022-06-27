@@ -29,6 +29,8 @@ MaxSpeed = 200.0
 Acceleration = 1000.0
 Friction = 1000.0
 Health = 3
+ReloadTime = 0.9
+NumberOfBullets = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )

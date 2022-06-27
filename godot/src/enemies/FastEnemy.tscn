@@ -21,7 +21,7 @@ Acceleration = 180.0
 Friction = 150.0
 Health = 1
 ItemScene = ExtResource( 4 )
-DropRate = 10
+DropRate = 2
 CanStrafe = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
