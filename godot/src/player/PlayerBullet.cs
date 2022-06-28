@@ -11,6 +11,8 @@ public class PlayerBullet : Node2D
     public float Acceleration {get; set;}
     [Export]
     public int Damage {get; set;}
+    [Export]
+    public bool IsPlayerBullet {get;set;}
 
 
     public override void _Ready()
@@ -20,22 +22,33 @@ public class PlayerBullet : Node2D
 
     public override void _Process(float delta)
     {
+        Destory();
         GlobalPosition += Direction * MaxSpeed * delta;
     }
 
     public void Destory()
     {
-        QueueFree();
+        if(IsPlayerBullet)
+        {
+            if(Position.y <= GlobalVariables.ScreenTop)
+                QueueFree();
+        }
+        else
+        {
+            if(Position.y >= GlobalVariables.ScreenBottom)
+                QueueFree();
+        }
     }
 
     public void OnTimerTimeout()
     {
-        Destory();
+        // TODO: Delete Timer
+        // Destory();
     }
 
     public void OnHitboxAreaEntered(Hurtbox hurtbox)
     {
-        Destory();
+        QueueFree();
     }
 
 

@@ -40,6 +40,7 @@ public class Enemy : Ship
 
     public override void _Process(float delta)
     {
+        Destroy();
         Shoot();
         MoveState(delta);
         if(CanStrafe)
@@ -165,7 +166,8 @@ public class Enemy : Ship
 
     public void OnDestroyTimerTimeout()
     {
-        QueueFree();
+        // TODO: Delete Destroy Timer
+        // QueueFree();
     }
 
     public void OnReloadTimerTimeout()
@@ -173,6 +175,13 @@ public class Enemy : Ship
         IsReloading = false;
         if(CanStrafe)
             RandomStrafe();
+    }
+    public void Destroy()
+    {
+        if(Position.y >= GlobalVariables.ScreenBottom)
+        {
+            QueueFree();
+        }
     }
 
 

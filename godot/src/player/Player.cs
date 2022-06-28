@@ -21,11 +21,16 @@ public class Player : Ship
     private PackedScene _bullet = (PackedScene)ResourceLoader.Load("res://src/player/PlayerBullet.tscn");
     private Position2D _shootPoint {get; set;}
     private Timer _reloadTimer {get;set;}
+    private GlobalVariables _globalVariables {set;get;}
     public override void _Ready()
     {
         _shootPoint = GetNode<Position2D>("ShootPoint");   
         _reloadTimer = GetNode<Timer>("ReloadTimer");
+        _globalVariables = GetNode<GlobalVariables>("/root/GlobalVariables");
+
         BulletsShooted = NumberOfBullets;
+        _globalVariables.SetPlayerHealth(Health);
+
     }
     public override void _Input(InputEvent @event)
     {
@@ -41,9 +46,6 @@ public class Player : Ship
         {
             case States.MOVE:
                 MoveState(delta);
-                break;
-            case States.DEAD:
-                DeadState();
                 break;
         }
 
@@ -85,7 +87,7 @@ public class Player : Ship
 
     public void DeadState()
     {
-        // play animation, and restart game
+        // play destroy animation
     }
 
     public void InstanceBullet()
@@ -98,9 +100,7 @@ public class Player : Ship
 
     public void OnHurtboxAreaEntered(Hitbox hitbox)
     {
-        // if(Health <= 0) 
-            // State = States.DEAD;
-        GD.Print("Player - 1HP");
+        _globalVariables.SetPlayerHealth(_globalVariables.GetPlayerHealth() - 1);
     }
 
     public void OnReloadTimerTimeout()
@@ -127,7 +127,7 @@ public class Player : Ship
                 case "Armor":
                     break;
                 case "Speed":
-                    Acceleration += 5;
+                    Acceleration += 10;
                     GD.Print("Acceleration: " + Acceleration);
                     break;
                 case "Bullet":
@@ -136,8 +136,10 @@ public class Player : Ship
                 case "Coin":
                     GlobalVariables.Money += 10;
                     break;
+                case "Skull":
+                    Acceleration -= 20;
+                    break;
                 default:
-                    GD.Print(name);
                     break;
             }
     }

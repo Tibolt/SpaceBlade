@@ -41,6 +41,7 @@ public class Item : Node2D
 
     public override void _Process(float delta)
     {
+        Destroy();
         Move(delta);
     }
 
@@ -73,7 +74,8 @@ public class Item : Node2D
 
     public void OnTimerTimeout()
     {
-        QueueFree();
+        // TODO: Delete Timers
+        // QueueFree();
     }
 
     public void OnHurtboxAreaEntered(Area2D area)
@@ -90,5 +92,13 @@ public class Item : Node2D
         Items.Add("Bullet", new Vals(3, 0.8f, 1));
         Items.Add("Speed", new Vals(4, 0.65f, 10));
         Items.Add("Health", new Vals(5, 0.95f, 1));
+    }
+
+    public void Destroy()
+    {
+        if(Position.y >= GlobalVariables.ScreenBottom)
+        {
+            QueueFree();
+        }
     }
 }

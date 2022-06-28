@@ -17,6 +17,7 @@ script = ExtResource( 2 )
 MaxSpeed = 200.0
 Acceleration = 100.0
 Damage = 1
+IsPlayerBullet = true
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0

@@ -56,9 +56,6 @@ environment = SubResource( 6 )
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 312, 459 )
 
-[node name="SmallEnemy" parent="." instance=ExtResource( 2 )]
-position = Vector2( 330, 68 )
-
 [node name="EnemySpawner" parent="." instance=ExtResource( 3 )]
 position = Vector2( 347, 148 )
 EnemyList = [ ExtResource( 2 ), ExtResource( 11 ) ]

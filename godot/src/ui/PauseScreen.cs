@@ -8,12 +8,19 @@ public class PauseScreen : Control
     private ColorRect _canvas {set;get;}
     private Label _scoreLabel {set;get;}
     private Label _moneyLabel {set;get;}
+    private Label _healthLabel {set;get;}
+    private GlobalVariables _globalVariables {set;get;}
 
     public override void _Ready()
     {
         _canvas = GetNode<ColorRect>("ColorRect");
         _scoreLabel = GetNode<Label>("ScoreLabel");
         _moneyLabel = GetNode<Label>("MoneyLabel");
+        _healthLabel = GetNode<Label>("HealthLabel");
+        _globalVariables = GetNode<GlobalVariables>("/root/GlobalVariables");
+
+
+        _globalVariables.Connect("NoHealth", this, "PauseGame");
     }
 
     public override void _Process(float delta)
@@ -25,8 +32,8 @@ public class PauseScreen : Control
         if(@event.IsActionPressed("pause"))
         {
             // IsPaused = !IsPaused;
-            SetPause(!IsPaused);
-            GetTree().SetInputAsHandled();
+            if(!GlobalVariables.EndGame)
+                PauseGame();
         }
     }
 
@@ -44,9 +51,24 @@ public class PauseScreen : Control
         // update UI, score, health
         _scoreLabel.Text = GlobalVariables.Score.ToString();
         _moneyLabel.Text = GlobalVariables.Money.ToString();
+        _healthLabel.Text = "Health " + _globalVariables.GetPlayerHealth().ToString();
     }
 
-        
+    public void PauseGame()
+    {
+        SetPause(!IsPaused);
+        GetTree().SetInputAsHandled();
+    }
 
+    public void OnRetryPressed()
+    {
+        GetTree().ReloadCurrentScene();
+        PauseGame();
+        _globalVariables.RestartGame();
+    }
 
+    public void OnExitPressed()
+    {
+        GetTree().Quit();
+    }
 }
