@@ -3,14 +3,14 @@ using System;
 
 public class MainMenu : Control
 {
-    public override void _Ready()
-    {
-        
-    }
+	public override void _Ready()
+	{
 
-
-    public void OnExitButtonPressed()
-    {
-        GetTree().Quit();
-    }
+	}
+	public void OnExitButtonPressed()
+	{
+		GetTree().Quit();
+	}
 }
+
+
