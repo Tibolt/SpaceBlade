@@ -33,8 +33,6 @@ public class GlobalVariables : Node2D
         }
     }
 
-
-
     public override void _Ready()
     {
         Score = 0;

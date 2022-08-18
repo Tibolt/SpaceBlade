@@ -20,7 +20,7 @@ Acceleration = 200.0
 Friction = 150.0
 Health = 1
 ItemScene = ExtResource( 4 )
-DropRate = 4
+DropRate = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 modulate = Color( 0.796078, 0.0784314, 0.0784314, 1 )
