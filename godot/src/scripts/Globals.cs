@@ -58,7 +58,6 @@ public class Globals : Node
 			{
 				var keyValue =_configFile.GetValue("keybinds", key);
 				var intValue = Convert.ToUInt32(keyValue);
-				GD.Print(key + " : " + OS.GetScancodeString(intValue));
 
 				Keybinds[key] = intValue;
 			}

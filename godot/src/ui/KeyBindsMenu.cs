@@ -33,7 +33,10 @@ public class KeyBindsMenu : Button
 			label.Text = key;
 
 			var buttonValue = keybinds[key];
-			button.Text = OS.GetScancodeString(buttonValue);
+			if(buttonValue == (uint)KeyList.Notsign)
+				button.Text = "Unassigned";
+			else
+				button.Text = OS.GetScancodeString(buttonValue);
 			
 			button.Key = key;
 			button.Value = buttonValue;
