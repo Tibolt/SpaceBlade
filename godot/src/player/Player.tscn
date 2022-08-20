@@ -36,6 +36,7 @@ NumberOfBullets = 6
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -0.374577, 0 )
 texture = ExtResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -45,7 +46,8 @@ limit_right = 640
 limit_bottom = 480
 
 [node name="ShootPoint" type="Position2D" parent="."]
-position = Vector2( 3, -16 )
+position = Vector2( 0.112288, -5.79388 )
+scale = Vector2( 0.5, 0.5 )
 
 [node name="Hurtbox" parent="." instance=ExtResource( 3 )]
 collision_layer = 4

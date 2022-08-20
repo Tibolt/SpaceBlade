@@ -25,6 +25,8 @@ environment = SubResource( 6 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 312, 459 )
+NumberOfBullets = 0
+WeaponType = 3
 
 [node name="EnemySpawner" parent="." instance=ExtResource( 3 )]
 position = Vector2( 347, 148 )

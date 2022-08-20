@@ -11,8 +11,9 @@ radius = 16.2526
 [sub_resource type="CanvasItemMaterial" id=2]
 blend_mode = 1
 
-[node name="PlayerBullet" type="Node2D"]
+[node name="PlayerBullet" type="KinematicBody2D"]
 scale = Vector2( 0.2, 0.2 )
+collision_layer = 0
 script = ExtResource( 2 )
 MaxSpeed = 200.0
 Acceleration = 100.0
